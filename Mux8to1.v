@@ -5,7 +5,7 @@ module Mux8to1(iClk, iSw, oData, oSelect, sw);
 	output [2:0] oSelect;
 	
 	wire nClk;
-	
+	// main
 	FD(iClk, nClk, sw);
 	mod8Counter(nClk, oSelect);
 	MUX_81(iSw, oSelect, oData);
@@ -21,7 +21,7 @@ module FD(iClk, oClk, sw);
 	
 	initial
 		count = 0;
-		
+	// frequency divider
 	always@(negedge iClk)
 	begin
 		if (sw)
@@ -42,6 +42,7 @@ module mod8Counter(iClk, Q);
 	input iClk;
 	output [2:0] Q;
 	
+	// asynchrounous up counter by JK Flip-Flop mod 8
 	JK_FF(iClk, Q[0], 1'b1, 1'b1);
 	JK_FF(Q[0], Q[1], 1'b1, 1'b1);
 	JK_FF(Q[1], Q[2], 1'b1, 1'b1);
@@ -51,7 +52,7 @@ endmodule
 module JK_FF(iClk, Q, J, K);
 	input	iClk, J, K;
 	output reg Q;
-	
+	// JK Flip-Flop
 	always@(negedge iClk)
 	begin
 		case({J, K})
@@ -69,8 +70,10 @@ module MUX_81(iData, iSelect, oData);
 	input [2:0] iSelect;
 	output reg oData;
 	
+	// MUX 8 to 1
 	always@(iSelect)
 	begin
+		//check value and assign data
 		case(iSelect)
 			3'b000: oData = iData[0];
 			3'b001: oData = iData[1];
