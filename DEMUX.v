@@ -4,6 +4,7 @@ module today0526(inValue, x, LED) ;
 	input x ;
 	output reg [7:0] LED ;
 	
+	//check the value and assign the correct LED
 	always @ (inValue)
 		begin
 			case(inValue)
